@@ -19,7 +19,7 @@
   hosts: app_server
   tasks:
     - get_url:
-        force: yes
+#        force: yes
         url: "{{ ARTIFACT_URL }}"
         dest: "/tmp/{{ APP_NAME }}.war"
     - stat: 
