@@ -18,11 +18,11 @@
 - name: Download Application from Repo
   hosts: app_server
   tasks:
-    get_url:
+    - get_url:
         force: yes
         url: "{{ ARTIFACT_URL }}"
         dest: "/tmp/{{ APP_NAME }}.war"
-    stat: 
+    - stat: 
         path: "/tmp/{{ APP_NAME }}.war"
 
 - name: Setup Spring Boot
