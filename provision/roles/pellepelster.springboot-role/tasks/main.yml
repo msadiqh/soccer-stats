@@ -65,7 +65,7 @@
   service: name={{ spring_boot_application_id }} enabled=yes
 
 - name: "start spring-boot service"
-  service: name='{{ spring_boot_application_id }}' state=restarted
+  service: name='{{ spring_boot_application_id }}' state=started
 
 - name: "wait for application to come up"
   uri:
