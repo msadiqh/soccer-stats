@@ -74,4 +74,4 @@
   register: result
   until: (result.status == 200) or (result.status == 404)
   retries: 60
-  delay: 10
+  delay: 60
