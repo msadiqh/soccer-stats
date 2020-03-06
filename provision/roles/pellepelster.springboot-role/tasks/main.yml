@@ -65,7 +65,7 @@
   service: name={{ spring_boot_application_id }} enabled=yes
 
 - name: "start spring-boot service"
-  service: name='{{ spring_boot_application_id }}' state=restarted
+  service: name=soccer-stats state=started
   
 - name: "wait for application to come up"
   uri:
@@ -74,5 +74,5 @@
   register: result
   until: (result.status == 200) or (result.status == 404)
   retries: 60
-  delay: 60
+  delay: 10
 
