@@ -1,20 +1,4 @@
 ---
-- name: Install Roles from Galaxy
-  hosts: localhost
-  connection: local
-  become: yes
-  become_user: root
-  tasks:
-    - name: installing ansible-galaxy roles
-      command: ansible-galaxy install -r requirements.yml --roles-path roles
-
-- name: Install Java
-  hosts: app_server
-  become: yes
-  become_user: root
-  roles:
-    - geerlingguy.java
-
 - name: Download Application from Repo
   hosts: app_server
   tasks:
@@ -24,14 +8,17 @@
         dest: "/tmp/{{ APP_NAME }}.war"
     - stat: 
         path: "/tmp/{{ APP_NAME }}.war"
-        
-- name: Setup Spring Boot
+
+- name: Unzip WAR file
   hosts: app_server
-  become: yes
-  become_user: root
-  roles: 
-    - { role: pellepelster.springboot-role,
-        spring_boot_file: "{{ APP_NAME }}.war",
-        spring_boot_file_source: "/tmp/{{ APP_NAME }}.war",
-        spring_boot_application_id: "{{ APP_NAME }}"
-    } 
+  unarchive: src=/tmp/{{ APP_NAME }}.war dest=/opt/tomcat/webapps/ROOT copy=no mode=0755 owner=tomcat group=tomcat
+  notify:
+      - Restart tomcat
+
+- name: Delete remote war file
+  hosts: app_server
+  file: path=/tmp/{{ APP_NAME }}.war state=absent
+
+  handlers:
+    - name: Restart tomcat
+      service: name=tomcat state=restarted
