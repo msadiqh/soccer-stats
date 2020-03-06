@@ -65,7 +65,7 @@
   service: name={{ spring_boot_application_id }} enabled=yes
 
 - name: "start spring-boot service"
-  service: name=soccer-stats state=started
+  command: /etc/init.d/soccer-stats start
   
 
 
