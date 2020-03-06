@@ -9,12 +9,11 @@
     - stat: 
         path: "/tmp/{{ APP_NAME }}.war"
 
-- name: Unzip WAR file
+- name: copy war to tomcat 
   hosts: app_server
-  tasks:
-    unarchive: src=/tmp/{{ APP_NAME }}.war dest=/opt/tomcat/webapps/ROOT copy=no mode=0755 owner=tomcat group=tomcat
-    notify:
-        - Restart tomcat
+  copy: src=/tmp/{{ APP_NAME }}.war dest=/opt/tomcat/webapps/ROOT mode=0755 owner=tomcat group=tomcat
+  notify:
+    - Restart tomcat
 
 - name: Delete remote war file
   hosts: app_server
